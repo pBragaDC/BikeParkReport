@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+
+
 public class SplashActivity extends ActionBarActivity {
+
+
 
     // Splash screen timer
     private static int SPLASH_TIME_OUT = 3000;
@@ -19,6 +23,7 @@ public class SplashActivity extends ActionBarActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //set content view
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_splash);
 
         new Handler().postDelayed(new Runnable() {
