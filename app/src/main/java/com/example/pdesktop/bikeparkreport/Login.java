@@ -3,6 +3,8 @@ package com.example.pdesktop.bikeparkreport;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 //facebook imports
 import com.facebook.CallbackManager;
@@ -14,6 +16,13 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 //twitter imports
 import io.fabric.sdk.android.Fabric;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -36,6 +45,11 @@ public class Login extends ActionBarActivity {
     private static final String TWITTER_SECRET = "frHymjYEmpVyWLZy6Eexe48NLzZx5ufEJXYK0DvJThaHPA68ik";
     private TwitterLoginButton twitterLoginButton;
 
+    //google private variables
+    private SignInButton googleLoginButton;
+    private GoogleApiClient mGoogleApiClient;
+    private static final String TAG = "SignInActivity";
+    private static final int RC_SIGN_IN = 9001;
 
     //variables needed for toast messages
     int duration = Toast.LENGTH_SHORT;
@@ -51,6 +65,15 @@ public class Login extends ActionBarActivity {
         TwitterAuthConfig twitterAuthConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(twitterAuthConfig));
 
+        //google sign in
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+
         //set view and instance
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
@@ -61,6 +84,25 @@ public class Login extends ActionBarActivity {
         //twitter button declarations
         twitterLoginButton = (TwitterLoginButton)findViewById(R.id.twitter_login_button);
         twitterLoginButton.setCallback(new LoginHandler());
+
+        //init google login button, and wait for button click
+        googleLoginButton = (SignInButton) findViewById(R.id.googlelogin);
+        googleLoginButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+                /*
+                switch(v.getId())
+                {
+                    case R.id.googlelogin:
+                        signIn();
+                        break;
+                }
+*/
+            }
+        });
 
         //method to register call back, and handle events
         facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
@@ -131,6 +173,32 @@ public class Login extends ActionBarActivity {
         }
     }
 
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            Intent i = new Intent(Login.this, ParksActivity.class);
+            startActivity(i);
+        } else {
+            //set display text and display toast
+            CharSequence text = "Google login attempt failed.";
+            Toast.makeText(getApplicationContext(), text, duration).show();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGoogleApiClient.disconnect();
+    }
+
     //on activity method, performs action depending what button was pressed
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -141,6 +209,13 @@ public class Login extends ActionBarActivity {
 
         //on twitter activity result
         twitterLoginButton.onActivityResult(requestCode, resultCode, data);
+
+        //google signin
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
     }
 
 
