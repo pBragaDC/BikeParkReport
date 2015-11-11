@@ -43,6 +43,9 @@
             android:name=".ParksActivity"
             android:label="@string/title_activity_parks" >
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="1c82411e256053df879661f8e0e7f21ef801f8f2" />
     </application>
 
 </manifest>
