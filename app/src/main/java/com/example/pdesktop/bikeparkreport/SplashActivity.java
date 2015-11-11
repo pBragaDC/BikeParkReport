@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.facebook.appevents.AppEventsLogger;
+
 public class SplashActivity extends ActionBarActivity {
 
     // Splash screen timer

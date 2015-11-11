@@ -14,51 +14,14 @@
         android:id="@+id/loginText"
         android:gravity="center_horizontal" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/facebooklogin"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:paddingTop="10dp"
-        style="?android:attr/buttonBarStyle">
-        <Button
-            android:id="@+id/facebookLoginButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_margin="10dp"
-            android:layout_width="100sp"
-            android:layout_height="100sp"
-            android:background="@drawable/facebooksocial"/>
-        <Button
-            android:id="@+id/twitterLoginButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_margin="10dp"
-            android:layout_width="100sp"
-            android:layout_height="100sp"
-            android:background="@drawable/twittersocial"/>
-        </LinearLayout>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        style="?android:attr/buttonBarStyle">
-        <Button
-            android:id="@+id/googleLoginButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_margin="10dp"
-            android:layout_width="100sp"
-            android:layout_height="100sp"
-            android:background="@drawable/googlesocial"/>
-        <Button
-            android:id="@+id/emailLoginButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_margin="10dp"
-            android:layout_width="100sp"
-            android:layout_height="100sp"
-            android:background="@drawable/emailsocial"/>
-
-    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"

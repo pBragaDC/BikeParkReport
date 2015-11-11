@@ -15,4 +15,6 @@
         completions."
     </string>
     <color name="white">#FFFFFF</color>
+    <string name="facebook_app_id">1649874108594036</string>
+    <string name="title_activity_parks">ParksActivity</string>
 </resources>
