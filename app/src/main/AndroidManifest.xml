@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.pdesktop.bikeparkreport" >
+    package="com.example.pdesktop.bikeparkreport">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -13,8 +13,8 @@
         android:icon="@drawable/icon_bpr_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".SplashActivity" >
+        android:theme="@style/AppTheme">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,12 +23,10 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
-        </activity>
+            android:label="@string/title_activity_login"></activity>
         <activity
             android:name=".Login"
-            android:label="@string/title_activity_login" >
-        </activity>
+            android:label="@string/title_activity_login"></activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -41,11 +39,15 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".ParksActivity"
-            android:label="@string/title_activity_parks" >
-        </activity>
+            android:label="@string/title_activity_parks"></activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="1c82411e256053df879661f8e0e7f21ef801f8f2" />
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"></activity>
     </application>
 
 </manifest>
