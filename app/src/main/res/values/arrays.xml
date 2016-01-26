@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name = "Parks">
+        <item>This Park</item>
+        <item>That Park</item>
+        <item>Your Park</item>
+        <item>My Park</item>
+    </string-array>
+
+
+
+</resources>

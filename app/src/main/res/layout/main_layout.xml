@@ -5,7 +5,7 @@
 
     <!-- this is the main frame -->
     <FrameLayout
-        android:id="@+id/content_frame"
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -18,8 +18,8 @@
         android:background="@color/white"
         android:choiceMode="singleChoice"
         android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"
-        />
+        android:dividerHeight="1dp" />
+
 
 </android.support.v4.widget.DrawerLayout>
 
