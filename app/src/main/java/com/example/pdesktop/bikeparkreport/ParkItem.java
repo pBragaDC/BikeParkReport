@@ -5,7 +5,7 @@ package com.example.pdesktop.bikeparkreport;
  */
 public class ParkItem {
 
-    private String parkName;
+
     private String address;
     private String city;
     private String closeTime;
@@ -14,13 +14,35 @@ public class ParkItem {
     private float lat;
     private float lon;
     private String openTime;
+    private String parkName;
     private String phone;
     private String state;
     private String website;
     private String zip;
 
-    public ParkItem()
+    ParkItem()
     {}
+
+    ParkItem( String address, String city, String closeTime
+            , String description, String fees, float lat, float lon
+            , String openTime, String parkName, String phone, String state, String website
+            , String zip)
+    {
+
+        this.address = address;
+        this.city = city;
+        this.closeTime = closeTime;
+        this.description = description;
+        this.fees = fees;
+        this.lat = lat;
+        this.lon = lon;
+        this.openTime = openTime;
+        this.parkName = parkName;
+        this.phone = phone;
+        this.state = state;
+        this.website = website;
+        this.zip = zip;
+    }
 
     public String getParkName() {
         return parkName;

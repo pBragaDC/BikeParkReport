@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -43,6 +44,8 @@ public class MainNavActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_nav);
 
+        //firebase context
+        Firebase.setAndroidContext(this);
 
         //camera position for map
         CameraPosition cameraPosition = new  CameraPosition.Builder().target(new LatLng(26.464120,-81.773718)).zoom(defaultZoomValue).build();
