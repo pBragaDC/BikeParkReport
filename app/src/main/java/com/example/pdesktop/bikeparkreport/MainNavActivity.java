@@ -3,6 +3,10 @@ package com.example.pdesktop.bikeparkreport;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.Context;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -26,7 +30,7 @@ public class MainNavActivity extends ActionBarActivity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
+    private LocationManager locationManager;
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -34,20 +38,36 @@ public class MainNavActivity extends ActionBarActivity
     private ParkListFragment parkListFrag;
     private MapFragment mMapFragment;
     private boolean mapView = false;
-    private int defaultZoomValue = 13;
+    private int defaultZoomValue = 14;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //Saves the best location provider (GPS, Network, etc), set to GPS by default
+        String bestLocationProvider = LocationManager.NETWORK_PROVIDER;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_nav);
 
+        //get the best one
+        //bestLocationProvider = locationManager.getBestProvider(new Criteria(), true);
+
+        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        Location currentLocation = locationManager.getLastKnownLocation(bestLocationProvider);
+
+        LatLng myLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
         //camera position for map
-        CameraPosition cameraPosition = new  CameraPosition.Builder().target(new LatLng(26.464120,-81.773718)).zoom(defaultZoomValue).build();
+        CameraPosition cameraPosition = new  CameraPosition.Builder().target(myLatLng).zoom(defaultZoomValue).build();
+        //Shows List of Parks
         parkListFrag= new ParkListFragment();
+        //Shows Map
         mMapFragment = MapFragment.newInstance(new GoogleMapOptions().camera(cameraPosition));
+
+        //Enable my location blue dot, crashes at the moment
+        //mMapFragment.getMap().setMyLocationEnabled(true);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
