@@ -32,15 +32,12 @@ public class ParkListFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
-
-
         //prepare the list view and adapter
         mParksListAdapter = new ParkListViewAdapter(getActivity(), R.layout.park_list_item, new ArrayList<ParkItem>());
         parksListView = (ListView) view.findViewById(android.R.id.list);
         parksListView.setAdapter(mParksListAdapter);
 
         Firebase rootRef = new Firebase("https://radiant-heat-2497.firebaseio.com/USA/Florida");
-
 
         // read parks
         rootRef.addValueEventListener(new ValueEventListener() {
@@ -69,20 +66,4 @@ public class ParkListFragment extends ListFragment {
         }
         mParksListAdapter.insert(park, 0);
     }
-/*
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        mAdapter = new FirebaseListAdapter<ParkItem>(this, ParkItem.class, android.R.layout.simple_list_item_1, rootRef) {
-            @Override
-            protected void populateView(View view, ParkItem object) {
-        // Populate view with contents of the model object
-            }
-        };
-
-
-        ArrayAdapter<ParkItem> adapter = ArrayAdapter<ParkItem>(getActivity(), android.R.layout.simple_list_item_1, park );
-        setListAdapter(adapter);
-    }*/
 }
