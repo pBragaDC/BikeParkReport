@@ -29,6 +29,11 @@ public class ParkListViewAdapter extends ArrayAdapter<ParkItem>{
             TextView parkName;
             TextView openTime;
             TextView closeTime;
+            TextView temperature;
+            TextView tempmin;
+            TextView tempmax;
+            TextView humidity;
+            TextView clouds;
         }
 
         @Override
@@ -44,6 +49,11 @@ public class ParkListViewAdapter extends ArrayAdapter<ParkItem>{
                 holder.parkName = (TextView) convertView.findViewById(R.id.parkName);
                 holder.openTime = (TextView) convertView.findViewById(R.id.openTime);
                 holder.closeTime = (TextView) convertView.findViewById(R.id.closeTime);
+                holder.temperature = (TextView) convertView.findViewById(R.id.temperature);
+                holder.tempmin = (TextView) convertView.findViewById(R.id.tempmin);
+                holder.tempmax = (TextView) convertView.findViewById(R.id.tempmax);
+                holder.humidity = (TextView) convertView.findViewById(R.id.humidity);
+                holder.clouds = (TextView) convertView.findViewById(R.id.clouds);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -52,8 +62,11 @@ public class ParkListViewAdapter extends ArrayAdapter<ParkItem>{
             holder.parkName.setText(park.getParkName() );
             holder.openTime.setText(park.getOpenTime() );
             holder.closeTime.setText(park.getCloseTime() );
+            holder.temperature.setText(park.getCurTemp() );
+            holder.tempmin.setText(park.getMinTemp() );
+            holder.tempmax.setText(park.getMaxTemp() );
+            holder.humidity.setText(park.getHumidity() );
+            holder.clouds.setText(park.getCloud() );
             return convertView;
         }
-
-
 }
