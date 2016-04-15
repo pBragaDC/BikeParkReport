@@ -3,6 +3,9 @@ package com.example.pdesktop.bikeparkreport;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -15,10 +18,16 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 
 import com.firebase.client.Firebase;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainNavActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -28,6 +37,8 @@ public class MainNavActivity extends ActionBarActivity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
+    private LocationManager locationManager;
+
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -35,8 +46,13 @@ public class MainNavActivity extends ActionBarActivity
     private ParkListFragment parkListFrag;
     private MapFragment mMapFragment;
     private boolean mapView = false;
-    private int defaultZoomValue = 13;
+    private int defaultZoomValue = 14;
+    private ParksListManager parkManager;
+    private List<ParkItem> mParks;
+    private List<Marker> mMarkers = new ArrayList<Marker>();
 
+    public MainNavActivity() {
+    }
 
 
     @Override
@@ -47,9 +63,28 @@ public class MainNavActivity extends ActionBarActivity
         //firebase context
         Firebase.setAndroidContext(this);
 
+        //set up the park manager and load the parks
+        parkManager = ParksListManager.get(this);
+        mParks = parkManager.getParks();
+
+        //Saves the best location provider (GPS, Network, etc), set to GPS by default
+        String bestLocationProvider = LocationManager.NETWORK_PROVIDER;
+
+        //get the best one
+        //bestLocationProvider = locationManager.getBestProvider(new Criteria(), true);
+
+        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        Location currentLocation = locationManager.getLastKnownLocation(bestLocationProvider);
+
+        LatLng myLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+
         //camera position for map
-        CameraPosition cameraPosition = new  CameraPosition.Builder().target(new LatLng(26.464120,-81.773718)).zoom(defaultZoomValue).build();
+        CameraPosition cameraPosition = new  CameraPosition.Builder().target(myLatLng).zoom(defaultZoomValue).build();
+
+        //shows list of parks
         parkListFrag= new ParkListFragment();
+
+        //Shows Map
         mMapFragment = MapFragment.newInstance(new GoogleMapOptions().camera(cameraPosition));
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)

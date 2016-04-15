@@ -24,6 +24,7 @@ public class GmapFragment extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
 
 
+
     public void onCreateView( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_gmaps);
@@ -33,6 +34,8 @@ public class GmapFragment extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+
         mMap = googleMap;
 
         // Add a marker in Sydney, Australia, and move the camera.
