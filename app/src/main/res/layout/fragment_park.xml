@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="1"
+    android:background="@color/material_blue_grey_800">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/parkName"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:text="Park Name"
+            android:padding="5dp"
+            android:textColor="@android:color/white" />
+
+        <View style="@style/Divider"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/parkName" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/address"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:text="Address"
+            android:layout_below="@+id/parkName"
+            android:layout_alignParentStart="true"
+            android:padding="3dp"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="City"
+            android:id="@+id/city"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:layout_below="@+id/address"
+            android:layout_alignParentStart="true"
+            android:padding="3dp"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="ST"
+            android:id="@+id/state"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:layout_below="@+id/address"
+            android:layout_toEndOf="@+id/city"
+            android:padding="3dp"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="#####"
+            android:id="@+id/zip"
+            android:layout_row="2"
+            android:layout_column="2"
+            android:layout_below="@+id/address"
+            android:layout_toEndOf="@+id/state"
+            android:padding="3dp"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textView6"
+            android:layout_row="3"
+            android:layout_column="4"
+            android:layout_below="@+id/city"
+            android:layout_alignParentStart="true"
+            android:padding="5dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Website: "
+            android:id="@+id/textView7"
+            android:layout_alignParentStart="true"
+            android:padding="5dp"
+            android:layout_alignParentTop="true"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="websitelink"
+            android:id="@+id/website"
+            android:padding="5dp"
+            android:layout_below="@+id/textView7"
+            android:layout_alignParentStart="true"
+            android:textSize="12dp"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Phone #: "
+            android:id="@+id/textView9"
+            android:padding="5dp"
+            android:textColor="@android:color/white"
+            android:layout_below="@+id/website"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="###-###-####"
+            android:id="@+id/phone"
+            android:padding="5dp"
+            android:layout_above="@+id/textView"
+            android:layout_toEndOf="@+id/textView9"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="HOURS"
+            android:id="@+id/textView11"
+            android:padding="5dp"
+            android:layout_alignTop="@+id/textView"
+            android:layout_alignParentStart="true"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="open"
+            android:id="@+id/openHours"
+            android:layout_below="@+id/textView11"
+            android:layout_alignStart="@+id/textView11"
+            android:padding="5dp"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=" - "
+            android:id="@+id/textView13"
+            android:layout_alignTop="@+id/openHours"
+            android:layout_toEndOf="@+id/openHours"
+            android:padding="5dp"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="close"
+            android:id="@+id/closeHours"
+            android:layout_alignTop="@+id/textView13"
+            android:layout_toEndOf="@+id/textView13"
+            android:padding="5dp"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textView15"
+            android:layout_below="@+id/closeHours"
+            android:layout_alignParentEnd="true"
+            android:padding="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="                     "
+            android:id="@+id/textView"
+            android:layout_below="@+id/textView9"
+            android:layout_toEndOf="@+id/textView7"
+            android:padding="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Fees: $"
+            android:id="@+id/textView2"
+            android:layout_below="@+id/phone"
+            android:layout_toEndOf="@+id/textView"
+            android:padding="5dp"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="fee"
+            android:id="@+id/fees"
+            android:padding="5dp"
+            android:layout_below="@+id/phone"
+            android:layout_toEndOf="@+id/textView2"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Description"
+        android:id="@+id/textView16"
+        android:padding="5dp"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="description"
+        android:id="@+id/description"
+        android:padding="5dp"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>
+</ScrollView>
