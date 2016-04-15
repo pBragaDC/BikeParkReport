@@ -47,6 +47,9 @@
         <activity
             android:name=".ParksActivity"
             android:label="@string/title_activity_parks" />
+        <activity
+            android:name=".ParkPagerActivity"
+            android:label="@string/park_pager_activity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
