@@ -43,6 +43,12 @@ public class ParkListFragment extends ListFragment {
 
         Log.d("Fragment itself", "getParks() returned " + mParks.size() + " parks");
 
+        mParksListAdapter = new ParkListViewAdapter(getActivity(), R.layout.park_list_item, new ArrayList<ParkItem>());
+        for(ParkItem park: mParks){
+            updateParkList(park);
+            Log.d("Fragment itself", park.getParkName());
+        }
+
         setListAdapter(mParksListAdapter);
 
     }
@@ -59,17 +65,17 @@ public class ParkListFragment extends ListFragment {
 
         //prepare the list view and adapter
         //mParksListAdapter = new ParkListViewAdapter(getActivity(), R.layout.park_list_item, new ArrayList<ParkItem>());
-        mParksListAdapter = new ParkListViewAdapter(getActivity(), R.layout.park_list_item, new ArrayList<ParkItem>());
+        //mParksListAdapter = new ParkListViewAdapter(getActivity(), R.layout.park_list_item, new ArrayList<ParkItem>());
 
         parksListView = (ListView) view.findViewById(android.R.id.list);
         //parksListView.setAdapter(mParksListAdapter);
 
         Log.d("Fragment itself", mParks.size() + "");
 
-        for(ParkItem park: mParks){
+        /*for(ParkItem park: mParks){
             updateParkList(park);
             Log.d("Fragment itself", park.getParkName());
-        }
+        }*/
 
 //
 //        Firebase rootRef = new Firebase("https://radiant-heat-2497.firebaseio.com/USA/Florida");
