@@ -31,7 +31,7 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
-
+//Login
 public class Login extends ActionBarActivity {
 
     //Declaration of variables
