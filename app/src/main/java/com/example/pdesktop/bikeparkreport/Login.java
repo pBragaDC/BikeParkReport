@@ -160,7 +160,7 @@ public class Login extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), text, duration).show();
 
             //go to next screen if login successful
-            Intent i = new Intent(Login.this, ParksActivity.class);
+            Intent i = new Intent(Login.this, MainNavActivity.class);
             startActivity(i);
         }
 
@@ -178,7 +178,7 @@ public class Login extends ActionBarActivity {
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            Intent i = new Intent(Login.this, ParksActivity.class);
+            Intent i = new Intent(Login.this, MainNavActivity.class);
             startActivity(i);
         } else {
             //set display text and display toast

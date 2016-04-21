@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.firebase.client.Firebase;
 
 
 public class SplashActivity extends ActionBarActivity {
@@ -20,11 +21,16 @@ public class SplashActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//remove title
         //remove notification bar
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //set content view
         super.onCreate(savedInstanceState);
 
+        Firebase.setAndroidContext(this);
+
         setContentView(R.layout.activity_splash);
+
+        //Preload the data
+        ParksListManager.createInstance(this);
 
         new Handler().postDelayed(new Runnable() {
 
@@ -32,7 +38,7 @@ public class SplashActivity extends ActionBarActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Intent i = new Intent(SplashActivity.this, MainNavActivity.class);
+                Intent i = new Intent(SplashActivity.this, Login.class);
                 startActivity(i);
 
                 // close this activity

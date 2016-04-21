@@ -73,6 +73,13 @@ public class ParksListManager {
         });
     }
 
+    public static void createInstance(Context c){
+        if(sParksListManager == null){
+            Log.d("ParkManager", "creating park manager");
+            sParksListManager = new ParksListManager(c.getApplicationContext());
+        }
+    }
+
     public ParkItem getPark(String name){
         for(ParkItem p: mParks) {
             if(p.getParkName().equals(name)){
