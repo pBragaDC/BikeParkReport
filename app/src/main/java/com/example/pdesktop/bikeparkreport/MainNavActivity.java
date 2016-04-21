@@ -1,33 +1,52 @@
 package com.example.pdesktop.bikeparkreport;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
+import android.widget.EditText;
 
 import com.firebase.client.Firebase;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainNavActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -38,7 +57,8 @@ public class MainNavActivity extends ActionBarActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
     private LocationManager locationManager;
-
+    private String myLocationZip = null;
+    String jsonResponse = null;
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -50,6 +70,8 @@ public class MainNavActivity extends ActionBarActivity
     private ParksListManager parkManager;
     private List<ParkItem> mParks;
     private List<Marker> mMarkers = new ArrayList<Marker>();
+    private LatLng myLatLng;
+    GoogleMap mMap;
 
     public MainNavActivity() {
     }
@@ -76,7 +98,8 @@ public class MainNavActivity extends ActionBarActivity
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         Location currentLocation = locationManager.getLastKnownLocation(bestLocationProvider);
 
-        LatLng myLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        myLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        myLocationZip = getZipFromLatLng(myLatLng);
 
         //camera position for map
         CameraPosition cameraPosition = new  CameraPosition.Builder().target(myLatLng).zoom(defaultZoomValue).build();
@@ -86,6 +109,7 @@ public class MainNavActivity extends ActionBarActivity
 
         //Shows Map
         mMapFragment = MapFragment.newInstance(new GoogleMapOptions().camera(cameraPosition));
+        mMap = mMapFragment.getMap();
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -129,10 +153,13 @@ public class MainNavActivity extends ActionBarActivity
                 fragmentTransaction.commit();
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = "Change Zip";
+
+                showChangeZipDialog(MainNavActivity.this);
+
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = "Favorites";
                 break;
             case 4:
                 mTitle = getString(R.string.title_section4);
@@ -149,6 +176,7 @@ public class MainNavActivity extends ActionBarActivity
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
+
 
     /**
      * A placeholder fragment containing a simple view.
@@ -189,5 +217,92 @@ public class MainNavActivity extends ActionBarActivity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
+
+    private void showChangeZipDialog(Context c){
+        LayoutInflater li = LayoutInflater.from(MainNavActivity.this);
+        View zipPromptView = li.inflate(R.layout.change_zip_dialog, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainNavActivity.this);
+
+        alertDialogBuilder.setView(zipPromptView);
+
+        final EditText zipInput = (EditText) zipPromptView.findViewById(R.id.changeZipInputText);
+        zipInput.setText(myLocationZip);
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Change", new DialogInterface.OnClickListener() {
+                    public void onClick (DialogInterface dialog,int id){
+                        updateView(zipInput.getText().toString());
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog zipDialog = alertDialogBuilder.create();
+        zipDialog.show();
+    }
+
+    private void updateView(String zip){
+        LatLng newLatLng = getLatLonFromZip(zip);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(newLatLng);
+
+        mMap.animateCamera(cameraUpdate);
+
+
+    }
+
+    //TODO: should probably be moved to its own class to handle all geocoding later
+    // However it's pretty cool, uses google api for geocoding to reverse lookup latlng from zip.
+    private LatLng getLatLonFromZip(String zip){
+
+
+        RetrieveLocationTask httpTask = (RetrieveLocationTask) new RetrieveLocationTask(new RetrieveLocationTask.AsyncResponse(){
+            @Override
+            public void processFinish(String output) {
+                jsonResponse = output;
+            }
+        }).execute();
+
+        LatLng responseLatLng = null;
+
+        try {
+            final JSONObject obj = new JSONObject(jsonResponse);
+            final JSONObject results = obj.getJSONObject("results");
+            final JSONObject geometry = results.getJSONObject("geometry");
+            //final JSONArray location = geometry.getJSONArray("location");
+
+            final JSONArray location = ((obj.getJSONObject("results")).getJSONObject("geometry")).getJSONArray("location");
+            //response only contains one object
+            final JSONObject locationObject = location.getJSONObject(0);
+
+            responseLatLng = new LatLng(locationObject.getDouble("lat"), locationObject.getDouble("lng"));
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return responseLatLng;
+    }
+
+    private String getZipFromLatLng(LatLng latlng){
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocation(latlng.latitude,latlng.longitude, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String zip = addresses.get(0).getPostalCode();
+
+        return zip;
+    }
+
 
 }
